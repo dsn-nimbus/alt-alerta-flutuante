@@ -24,7 +24,7 @@ describe('altAlertaFlutuanteDirective', function() {
       })
 
       it('deve ter o element invisível', function() {
-          expect(_element.find('#alerta-flutuante').attr('style').match('none')).toBeTruthy();
+          expect(_element.attr('style').match('none')).toBeTruthy();
       })
 
       it('deve ter os valores corretos para as constantes', function() {
@@ -38,8 +38,8 @@ describe('altAlertaFlutuanteDirective', function() {
           spyOn($.fn, 'stop').and.callThrough();
           spyOn($.fn, 'fadeOut').and.callThrough();
 
-          var _alerta = _element.find('#alerta-flutuante');
-          var _close = _element.find('#alerta-flutuante .close');
+          var _alerta = _element;
+          var _close = _element.find('.close');
 
           _close.click();
 
@@ -54,7 +54,7 @@ describe('altAlertaFlutuanteDirective', function() {
           spyOn($.fn, 'delay').and.callThrough();
           spyOn($.fn, 'fadeOut').and.callThrough();
 
-          _element = _element.find("#alerta-flutuante").attr('style', 'display: block');
+          _element = _element.attr('style', 'display: block');
 
           _rootScope.$broadcast(EVENTO);
 
@@ -69,7 +69,7 @@ describe('altAlertaFlutuanteDirective', function() {
         spyOn($.fn, 'delay').and.callThrough();
         spyOn($.fn, 'fadeOut').and.callThrough();
 
-        _element = _element.find("#alerta-flutuante").attr('style', 'opacity: .94545454');
+        _element = _element.attr('style', 'opacity: .94545454');
 
         _rootScope.$broadcast(EVENTO);
 
@@ -84,7 +84,7 @@ describe('altAlertaFlutuanteDirective', function() {
         spyOn($.fn, 'delay').and.callThrough();
         spyOn($.fn, 'fadeOut').and.callThrough();
 
-        _element = _element.find("#alerta-flutuante").attr('style', 'display: block; opacity: .94545454;');
+        _element = _element.attr('style', 'display: block; opacity: .94545454;');
 
         _rootScope.$broadcast(EVENTO);
 
@@ -144,7 +144,7 @@ describe('altAlertaFlutuanteDirective', function() {
           spyOn($.fn, 'stop').and.callThrough();
           spyOn($.fn, 'fadeOut').and.callThrough();
 
-          var _alerta = _element.find('#alerta-flutuante');
+          var _alerta = _element;
 
           _rootScope.$broadcast(EVENTO_ESCONDER);
 
