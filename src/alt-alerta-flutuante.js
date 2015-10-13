@@ -7,6 +7,15 @@
     EVENTO_ALERTA_FLUTUANTE: 'alt.exibe-alerta-flutuante',
     EVENTO_ESCONDER_ALERTA_FLUTUANTE: 'alt.esconde-alerta-flutuante'
   })
+  .service('AltAlertaFlutuanteService', ['$rootScope', 'AltAlertaFlutuanteEventos', function($rootScope, AltAlertaFlutuanteEventos) {
+    this.exibe = function(opt) {
+      $rootScope.$broadcast(AltAlertaFlutuanteEventos.EVENTO_ALERTA_FLUTUANTE, opt);
+    };
+
+    this.esconde = function(opt) {
+      $rootScope.$broadcast(AltAlertaFlutuanteEventos.EVENTO_ESCONDER_ALERTA_FLUTUANTE, opt);
+    };
+  }])
   .directive('altAlertaFlutuante', ['$rootScope', '$sce', 'AltAlertaFlutuanteEventos', function($rootScope, $sce, AltAlertaFlutuanteEventos) {
     var _template = '<div id="alerta-flutuante" class="alert alert-{{tipo}} alerta-flutuante" role="alert" style="display: none;">\
                         <button type="button" class="close">\
@@ -28,7 +37,7 @@
 
       var _escondeAlerta = function() {
           element
-            .stop() // para o delay
+            .stop()
             .fadeOut(TEMPO_DE_REMOCAO);
       };
 
