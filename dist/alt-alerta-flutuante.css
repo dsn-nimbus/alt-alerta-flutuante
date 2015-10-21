@@ -1,0 +1,19 @@
+#alerta-flutuante .close {
+  font-size: 30px;
+}
+
+.alerta-flutuante {
+  position: fixed;
+  width: 90%;
+  left: 5%;
+  top: 60px;
+  font-size: 17px;
+  z-index: 9999;
+}
+
+@media(min-width: 50em) {
+  .alerta-flutuante {
+    width: 40%;
+    left: 30%;
+  }
+}
