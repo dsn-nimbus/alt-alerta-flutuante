@@ -2,6 +2,7 @@ describe('altAlertaFlutuanteDirective', function() {
   var _rootScope, _scope, _compile, _element, _AltAlertaFlutuanteEventos, _AltAlertaFlutuanteService;
   var EVENTO = "alt.exibe-alerta-flutuante";
   var EVENTO_ESCONDER = "alt.esconde-alerta-flutuante";
+  var TROCA_ROTA = "$locationChangeSuccess";
 
   beforeEach(module('alt.alerta-flutuante'));
 
@@ -55,6 +56,7 @@ describe('altAlertaFlutuanteDirective', function() {
       it('deve ter os valores corretos para as constantes', function() {
         expect(_AltAlertaFlutuanteEventos.EVENTO_ALERTA_FLUTUANTE).toEqual('alt.exibe-alerta-flutuante');
         expect(_AltAlertaFlutuanteEventos.EVENTO_ESCONDER_ALERTA_FLUTUANTE).toEqual('alt.esconde-alerta-flutuante');
+        expect(_AltAlertaFlutuanteEventos.TROCA_ROTA).toEqual('$locationChangeSuccess');
       })
     })
 
@@ -172,6 +174,20 @@ describe('altAlertaFlutuanteDirective', function() {
         var _alerta = _element;
 
         _rootScope.$broadcast(EVENTO_ESCONDER);
+
+        expect(_alerta.stop).toHaveBeenCalled();
+        expect(_alerta.fadeOut).toHaveBeenCalledWith(99);
+      })
+    })
+
+    describe('reação ao $broadcast - esconder alerta - troca rota', function() {
+      it('deve sumir com o alerta', function() {
+        spyOn($.fn, 'stop').and.callThrough();
+        spyOn($.fn, 'fadeOut').and.callThrough();
+
+        var _alerta = _element;
+
+        _rootScope.$broadcast(TROCA_ROTA);
 
         expect(_alerta.stop).toHaveBeenCalled();
         expect(_alerta.fadeOut).toHaveBeenCalledWith(99);

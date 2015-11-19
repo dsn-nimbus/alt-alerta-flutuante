@@ -5,7 +5,8 @@
   .module('alt.alerta-flutuante', [])
   .constant('AltAlertaFlutuanteEventos', {
     EVENTO_ALERTA_FLUTUANTE: 'alt.exibe-alerta-flutuante',
-    EVENTO_ESCONDER_ALERTA_FLUTUANTE: 'alt.esconde-alerta-flutuante'
+    EVENTO_ESCONDER_ALERTA_FLUTUANTE: 'alt.esconde-alerta-flutuante',
+    TROCA_ROTA: '$locationChangeSuccess'
   })
   .service('AltAlertaFlutuanteService', ['$rootScope', 'AltAlertaFlutuanteEventos', function($rootScope, AltAlertaFlutuanteEventos) {
     this.exibe = function(opt) {
@@ -36,15 +37,8 @@
       var TEMPO_DE_REMOCAO = 99;
 
       var _escondeAlerta = function() {
-          element
-            .stop()
-            .fadeOut(TEMPO_DE_REMOCAO);
+          element.stop().fadeOut(TEMPO_DE_REMOCAO);
       };
-
-      element
-        .find('.close')
-        .eq(0)
-        .on('click', _escondeAlerta);
 
       $rootScope.$on(AltAlertaFlutuanteEventos.EVENTO_ALERTA_FLUTUANTE, function(evento, obj) {
           var _estaAparecendo = element.attr('style').match('block');
@@ -64,7 +58,10 @@
           }
       });
 
+      element.find('.close').eq(0).on('click', _escondeAlerta);
       $rootScope.$on(AltAlertaFlutuanteEventos.EVENTO_ESCONDER_ALERTA_FLUTUANTE, _escondeAlerta);
+      $rootScope.$on(AltAlertaFlutuanteEventos.TROCA_ROTA, _escondeAlerta);
+
     }
 
     var _scope = {};
