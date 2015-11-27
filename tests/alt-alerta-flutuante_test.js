@@ -3,6 +3,8 @@ describe('altAlertaFlutuanteDirective', function() {
   var EVENTO = "alt.exibe-alerta-flutuante";
   var EVENTO_ESCONDER = "alt.esconde-alerta-flutuante";
   var TROCA_ROTA = "$locationChangeSuccess";
+  var TEMPO_DE_EXIBICAO = 5000;
+  var TEMPO_DE_REMOCAO = 33;
 
   beforeEach(module('alt.alerta-flutuante'));
 
@@ -71,7 +73,7 @@ describe('altAlertaFlutuanteDirective', function() {
         _close.click();
 
         expect(_alerta.stop).toHaveBeenCalled();
-        expect(_alerta.fadeOut).toHaveBeenCalledWith(99);
+        expect(_alerta.fadeOut).toHaveBeenCalledWith(TEMPO_DE_REMOCAO);
       })
     })
 
@@ -127,6 +129,7 @@ describe('altAlertaFlutuanteDirective', function() {
         expect(_element.isolateScope().titulo).toEqual("Houve um problema");
         expect(_element.isolateScope().mensagem.$$unwrapTrustedValue()).toEqual("Ocorreu um erro no momento da solicitação. Por favor, tente novamente mais tarde.");
         expect(_element.isolateScope().icone).toEqual("warning");
+        expect(_element.isolateScope().tempoVisivel).toEqual(TEMPO_DE_EXIBICAO);
       })
 
       it('deve preencher o escopo com o tipo default', function() {
@@ -136,6 +139,7 @@ describe('altAlertaFlutuanteDirective', function() {
         expect(_element.isolateScope().titulo).toEqual("Houve um problema");
         expect(_element.isolateScope().mensagem.$$unwrapTrustedValue()).toEqual("ae");
         expect(_element.isolateScope().icone).toEqual("warning");
+        expect(_element.isolateScope().tempoVisivel).toEqual(TEMPO_DE_EXIBICAO);
       })
 
       it('deve preencher o escopo com a mensagem default', function() {
@@ -145,6 +149,7 @@ describe('altAlertaFlutuanteDirective', function() {
         expect(_element.isolateScope().titulo).toEqual("Houve um problema");
         expect(_element.isolateScope().mensagem.$$unwrapTrustedValue()).toEqual("Ocorreu um erro no momento da solicitação. Por favor, tente novamente mais tarde.");
         expect(_element.isolateScope().icone).toEqual("warning");
+        expect(_element.isolateScope().tempoVisivel).toEqual(TEMPO_DE_EXIBICAO);
       })
 
       it('deve preencher o titulo corretamente', function() {
@@ -154,6 +159,7 @@ describe('altAlertaFlutuanteDirective', function() {
         expect(_element.isolateScope().titulo).toEqual("titulo1");
         expect(_element.isolateScope().mensagem.$$unwrapTrustedValue()).toEqual("abc");
         expect(_element.isolateScope().icone).toEqual("warning");
+        expect(_element.isolateScope().tempoVisivel).toEqual(TEMPO_DE_EXIBICAO);
       })
 
       it('deve preencher o icone corretamente', function() {
@@ -163,6 +169,20 @@ describe('altAlertaFlutuanteDirective', function() {
         expect(_element.isolateScope().titulo).toEqual("titulo1");
         expect(_element.isolateScope().mensagem.$$unwrapTrustedValue()).toEqual("abc");
         expect(_element.isolateScope().icone).toEqual("check");
+        expect(_element.isolateScope().tempoVisivel).toEqual(TEMPO_DE_EXIBICAO);
+      })
+
+      it('deve preencher o tempo corretamente', function() {
+        var _novoTempoVisivel = 123;
+
+        _rootScope.$broadcast(EVENTO, {msg: "abc", tipo: 'success', titulo: "titulo1", icone: 'check', tempoVisivel: _novoTempoVisivel});
+
+        expect(_element.isolateScope().tipo).toEqual("success");
+        expect(_element.isolateScope().titulo).toEqual("titulo1");
+        expect(_element.isolateScope().mensagem.$$unwrapTrustedValue()).toEqual("abc");
+        expect(_element.isolateScope().icone).toEqual("check");
+        expect(_element.isolateScope().tempoVisivel).not.toEqual(TEMPO_DE_EXIBICAO);
+        expect(_element.isolateScope().tempoVisivel).toEqual(_novoTempoVisivel);
       })
     })
 
@@ -176,7 +196,7 @@ describe('altAlertaFlutuanteDirective', function() {
         _rootScope.$broadcast(EVENTO_ESCONDER);
 
         expect(_alerta.stop).toHaveBeenCalled();
-        expect(_alerta.fadeOut).toHaveBeenCalledWith(99);
+        expect(_alerta.fadeOut).toHaveBeenCalledWith(TEMPO_DE_REMOCAO);
       })
     })
 
@@ -190,7 +210,7 @@ describe('altAlertaFlutuanteDirective', function() {
         _rootScope.$broadcast(TROCA_ROTA);
 
         expect(_alerta.stop).toHaveBeenCalled();
-        expect(_alerta.fadeOut).toHaveBeenCalledWith(99);
+        expect(_alerta.fadeOut).toHaveBeenCalledWith(TEMPO_DE_REMOCAO);
       })
     })
   })

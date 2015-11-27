@@ -34,7 +34,7 @@
       var MENSAGEM_DEFAULT = "Ocorreu um erro no momento da solicitação. Por favor, tente novamente mais tarde.";
       var TEMPO_DE_APARICAO = 99;
       var TEMPO_DE_EXIBICAO = 5000;
-      var TEMPO_DE_REMOCAO = 99;
+      var TEMPO_DE_REMOCAO = 33;
 
       var _escondeAlerta = function() {
           element.stop().fadeOut(TEMPO_DE_REMOCAO);
@@ -50,18 +50,17 @@
               scope.mensagem = $sce.trustAsHtml(_obj.msg || MENSAGEM_DEFAULT);
               scope.tipo = _obj.tipo || ESTILO_ALERTA_DEFAULT;
               scope.icone = _obj.icone || ICONE_DEFAULT;
+              scope.tempoVisivel = _obj.tempoVisivel || TEMPO_DE_EXIBICAO;
 
-              element
-                .fadeIn(TEMPO_DE_APARICAO)
-                .delay(TEMPO_DE_EXIBICAO)
-                .fadeOut(TEMPO_DE_REMOCAO);
+              element.fadeIn(TEMPO_DE_APARICAO)
+                     .delay(scope.tempoVisivel)
+                     .fadeOut(TEMPO_DE_REMOCAO);
           }
       });
 
       element.find('.close').eq(0).on('click', _escondeAlerta);
       $rootScope.$on(AltAlertaFlutuanteEventos.EVENTO_ESCONDER_ALERTA_FLUTUANTE, _escondeAlerta);
       $rootScope.$on(AltAlertaFlutuanteEventos.TROCA_ROTA, _escondeAlerta);
-
     }
 
     var _scope = {};
