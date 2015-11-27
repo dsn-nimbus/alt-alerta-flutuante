@@ -2,6 +2,17 @@
   font-size: 30px;
 }
 
+#alerta-flutuante-blanket {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #000;
+  z-index: 9998;
+  opacity: .3;
+}
+
 .alerta-flutuante {
   position: fixed;
   width: 90%;
