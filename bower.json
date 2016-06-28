@@ -1,7 +1,7 @@
 {
   "name": "alt-alerta-flutuante",
   "main": ["dist/alt-alerta-flutuante.min.js", "dist/alt-alerta-flutuante.min.css"],
-  "version": "0.0.7",
+  "version": "0.0.8",
   "homepage": "https://github.com/ericmdantas/alt-alerta-flutuante.git",
   "authors": [
     "ericmdantas <ericdantas0@gmail.com>"

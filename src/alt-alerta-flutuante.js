@@ -20,13 +20,13 @@
   .directive('altAlertaFlutuante', ['$rootScope', '$sce', 'AltAlertaFlutuanteEventos', function($rootScope, $sce, AltAlertaFlutuanteEventos) {
     var _template = '<div>\
                       <div id="alerta-flutuante-blanket" ng-show="comBlanket"></div>\
-                      <div id="alerta-flutuante" class="alert alert-{{tipo}} alerta-flutuante" role="alert" style="display: none;">\
+                      <div id="alerta-flutuante" class="alert alert-{{tipo}} alerta-flutuante alt-sombra-secundaria" role="alert" style="display: none;">\
                           <button type="button" class="close" ng-show="exibeBtnClose">\
                             <span aria-hidden="true">&times;</span>\
                           </button>\
                           <span class="fa fa-{{icone}} fa-fw"></span>\
                           <strong ng-bind="titulo"></strong>\
-                          <p class="espaco-top" ng-bind-html="mensagem"></p>\
+                          <p class="alt-espacamento-top" ng-bind-html="mensagem"></p>\
                       </div>\
                     </div>';
 

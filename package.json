@@ -1,8 +1,9 @@
 {
   "name": "alt-alerta-flutuante",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "main": "dist/alt-alerta-flutuante.js",
   "scripts": {
+    "build": "gulp build",
     "test": "gulp coverage"
   },
   "dependencies": {},
