@@ -23,8 +23,8 @@ describe('altAlertaFlutuanteDirective', function() {
 
       spyOn(_rootScope, '$broadcast').and.callThrough();
 
-      _alerta = _element.find('#alerta-flutuante');
-      _blanket = _element.find('#alerta-flutuante-blanket');
+      _alerta = _element.find('#alt-alerta-flutuante');
+      _blanket = _element.find('#alt-alerta-flutuante-blanket');
     }));
 
   describe('service', function() {

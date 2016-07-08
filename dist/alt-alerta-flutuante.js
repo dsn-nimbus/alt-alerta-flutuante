@@ -19,8 +19,8 @@
   }])
   .directive('altAlertaFlutuante', ['$rootScope', '$sce', 'AltAlertaFlutuanteEventos', function($rootScope, $sce, AltAlertaFlutuanteEventos) {
     var _template = '<div>\
-                      <div id="alerta-flutuante-blanket" ng-show="comBlanket"></div>\
-                      <div id="alerta-flutuante" class="alert alert-{{tipo}} alerta-flutuante alt-sombra-secundaria" role="alert" style="display: none;">\
+                      <div id="alt-alerta-flutuante-blanket" ng-show="comBlanket"></div>\
+                      <div id="alt-alerta-flutuante" class="alert alert-{{tipo}} alt-alerta-flutuante alt-sombra-secundaria" role="alert" style="display: none;">\
                           <button type="button" class="close" ng-show="exibeBtnClose">\
                             <span aria-hidden="true">&times;</span>\
                           </button>\
@@ -39,8 +39,8 @@
       var TEMPO_DE_EXIBICAO = 5000;
       var TEMPO_DE_REMOCAO = 33;
 
-      var _alerta = element.find('#alerta-flutuante');
-      var _blanket = element.find('#alerta-flutuante-blanket');
+      var _alerta = element.find('#alt-alerta-flutuante');
+      var _blanket = element.find('#alt-alerta-flutuante-blanket');
 
       var _escondeAlerta = function() {
           _alerta.stop().fadeOut(TEMPO_DE_REMOCAO);
