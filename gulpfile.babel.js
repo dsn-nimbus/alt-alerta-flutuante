@@ -4,7 +4,7 @@ import coveralls from 'gulp-coveralls';
 import cssmin from 'gulp-cssmin';
 import concat from 'gulp-concat';
 import rename from 'gulp-rename';
-import {server as karma} from 'karma';
+import {Server as Karma} from 'karma';
 
 const _coverage = 'coverage/**/lcov.info';
 const _scripts = 'src/**/*.js';
@@ -38,11 +38,9 @@ gulp.task('unit_test', (done) => {
     browsers: ['Chrome']
   };
 
-  karma.start(_opts, done);
+  return new Karma(_opts).start(done);
 })
 
 gulp.task('coverage', ['unit_test'], () => {
-  gulp
-    .src(_coverage)
-    .pipe(coveralls());
+  return gulp.src(_coverage).pipe(coveralls());
 })
