@@ -36,7 +36,7 @@
       var TITULO_DEFAULT = "Houve um problema";
       var MENSAGEM_DEFAULT = "Ocorreu um erro no momento da solicitação. Por favor, tente novamente mais tarde.";
       var TEMPO_DE_APARICAO = 99;
-      var TEMPO_DE_EXIBICAO = 5000;
+      var TEMPO_DE_EXIBICAO = 30000;
       var TEMPO_DE_REMOCAO = 33;
 
       var _alerta = element.find('#alt-alerta-flutuante');
@@ -48,8 +48,9 @@
       };
 
       $rootScope.$on(AltAlertaFlutuanteEventos.EVENTO_ALERTA_FLUTUANTE, function(evento, obj) {
-          var _estaAparecendo = _alerta.attr('style').match('block');
-          var _estaSumindo = _alerta.attr('style').match('opacity');
+          var _attrStyle = _alerta.attr('style');
+          var _estaAparecendo = _attrStyle ? _attrStyle.match('block') : true;
+          var _estaSumindo = _attrStyle ? _attrStyle.match('opacity') : false;
           var _obj = angular.isObject(obj) ? obj : {};
 
           if (!_estaAparecendo  && !_estaSumindo) {

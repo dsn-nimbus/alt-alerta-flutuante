@@ -3,7 +3,7 @@ describe('altAlertaFlutuanteDirective', function() {
   var EVENTO = "alt.exibe-alerta-flutuante";
   var EVENTO_ESCONDER = "alt.esconde-alerta-flutuante";
   var TROCA_ROTA = "$locationChangeSuccess";
-  var TEMPO_DE_EXIBICAO = 5000;
+  var TEMPO_DE_EXIBICAO = 30000;
   var TEMPO_DE_REMOCAO = 33;
 
   beforeEach(module('alt.alerta-flutuante'));

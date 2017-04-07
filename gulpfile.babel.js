@@ -38,7 +38,7 @@ gulp.task('unit_test', (done) => {
     browsers: ['Chrome']
   };
 
-  return new Karma(_opts).start(done);
+  return new Karma(_opts, done).start();
 })
 
 gulp.task('coverage', ['unit_test'], () => {
