@@ -17,16 +17,17 @@
       $rootScope.$broadcast(AltAlertaFlutuanteEventos.EVENTO_ESCONDER_ALERTA_FLUTUANTE, opt);
     };
   }])
-  .directive('altAlertaFlutuante', ['$rootScope', '$sce', 'AltAlertaFlutuanteEventos', function($rootScope, $sce, AltAlertaFlutuanteEventos) {
-    var _template = '<div>\
+  .directive('altAlertaFlutuante', ['$rootScope', '$timeout', '$sce', 'AltAlertaFlutuanteEventos', function($rootScope, $timeout, $sce, AltAlertaFlutuanteEventos) {
+    var TEMPLATE = '<div>\
                       <div id="alt-alerta-flutuante-blanket" ng-show="comBlanket"></div>\
                       <div id="alt-alerta-flutuante" class="alert alert-{{tipo}} alt-alerta-flutuante alt-sombra-secundaria" role="alert" style="display: none;">\
-                          <button type="button" class="close" ng-show="exibeBtnClose">\
-                            <span aria-hidden="true">&times;</span>\
-                          </button>\
-                          <span class="fa fa-{{icone}} fa-fw"></span>\
-                          <strong ng-bind="titulo"></strong>\
-                          <p class="alt-espacamento-top" ng-bind-html="mensagem"></p>\
+                        <button type="button" class="close" ng-show="exibeBtnClose">\
+                          <span aria-hidden="true">&times;</span>\
+                        </button>\
+                        <span class="fa fa-{{icone}} fa-fw"></span>\
+                        <strong ng-bind="titulo"></strong>\
+                        <p class="alt-espacamento-top" ng-bind-html="mensagem"></p>\
+                        <div id="alt-alerta-flutuante-tempo" ng-style="{\'border-color\': corBarraTempo}"></div>\
                       </div>\
                     </div>';
 
@@ -36,61 +37,139 @@
       var TITULO_DEFAULT = "Houve um problema";
       var MENSAGEM_DEFAULT = "Ocorreu um erro no momento da solicitação. Por favor, tente novamente mais tarde.";
       var TEMPO_DE_APARICAO = 99;
-      var TEMPO_DE_EXIBICAO = 30000;
+      var TEMPO_DE_EXIBICAO = 10000;
       var TEMPO_DE_REMOCAO = 33;
+      var TEMPO_INICIALIZACAO_BARRA_TEMPO = 1000;
+      var COR_TEMPO_SUCCESS = '#528c49';
+      var COR_TEMPO_DANGER = '#c56666';
+      var COR_TEMPO_INFO = '#31708f';
+      var COR_TEMPO_WARNING = '#8a6d3b';
 
-      var _alerta = element.find('#alt-alerta-flutuante');
-      var _blanket = element.find('#alt-alerta-flutuante-blanket');
+      var _elementoAlerta = element.find('#alt-alerta-flutuante');
+      var _elementoBlanket = element.find('#alt-alerta-flutuante-blanket');
+      var _elementoTempo = element.find('#alt-alerta-flutuante-tempo');
+      var _elementoClose =_elementoAlerta.find('.close').eq(0);
+      var _promessaTimeoutAlerta = null;
+      var _promessaTimeoutBlanket = null;
 
       var _escondeAlerta = function() {
-          _alerta.stop().fadeOut(TEMPO_DE_REMOCAO);
-          _blanket.stop().fadeOut(TEMPO_DE_REMOCAO);
+        $timeout.cancel(_promessaTimeoutAlerta);
+        $timeout.cancel(_promessaTimeoutBlanket);
+
+        _elementoAlerta.off('mouseenter');
+        _elementoAlerta.off('mouseleave');
+
+        _elementoAlerta.fadeOut(TEMPO_DE_REMOCAO);
+        _elementoBlanket.fadeOut(TEMPO_DE_REMOCAO);
       };
 
       $rootScope.$on(AltAlertaFlutuanteEventos.EVENTO_ALERTA_FLUTUANTE, function(evento, obj) {
-          var _attrStyle = _alerta.attr('style');
-          var _estaAparecendo = _attrStyle ? _attrStyle.match('block') : true;
-          var _estaSumindo = _attrStyle ? _attrStyle.match('opacity') : false;
-          var _obj = angular.isObject(obj) ? obj : {};
+        _elementoAlerta.off('mouseenter');
+        _elementoAlerta.off('mouseleave');
 
-          if (!_estaAparecendo  && !_estaSumindo) {
-              scope.titulo = _obj.titulo || TITULO_DEFAULT;
-              scope.mensagem = $sce.trustAsHtml(_obj.msg || MENSAGEM_DEFAULT);
-              scope.tipo = _obj.tipo || ESTILO_ALERTA_DEFAULT;
-              scope.icone = _obj.icone || ICONE_DEFAULT;
-              scope.tempoVisivel = _obj.tempoVisivel || TEMPO_DE_EXIBICAO;
-              scope.exibeBtnClose = angular.isDefined(_obj.exibeBtnClose) ? _obj.exibeBtnClose : true;
-              scope.comBlanket = angular.isDefined(_obj.comBlanket) ? _obj.comBlanket : false;
+        var _attrStyle = _elementoAlerta.attr('style');
+        var _estaAparecendo = _attrStyle ? _attrStyle.match('block') : true;
+        var _estaSumindo = _attrStyle ? _attrStyle.match('opacity') : false;
+        var _obj = angular.isObject(obj) ? obj : {};
 
-              _alerta.fadeIn(TEMPO_DE_APARICAO)
-                     .delay(scope.tempoVisivel)
-                     .fadeOut(TEMPO_DE_REMOCAO);
+        scope.titulo = _obj.titulo || TITULO_DEFAULT;
+        scope.mensagem = $sce.trustAsHtml(_obj.msg || MENSAGEM_DEFAULT);
+        scope.tipo = _obj.tipo || ESTILO_ALERTA_DEFAULT;
+        scope.icone = _obj.icone || ICONE_DEFAULT;
+        scope.tempoVisivel = _obj.tempoVisivel || TEMPO_DE_EXIBICAO;
+        scope.exibeBtnClose = angular.isDefined(_obj.exibeBtnClose) ? _obj.exibeBtnClose : true;
+        scope.comBlanket = angular.isDefined(_obj.comBlanket) ? _obj.comBlanket : false;
+        scope.corBarraTempo = COR_TEMPO_DANGER;
 
-             if (scope.comBlanket) {
-               _blanket.fadeIn(TEMPO_DE_APARICAO)
-                       .delay(scope.tempoVisivel)
-                       .fadeOut(TEMPO_DE_REMOCAO);
-             }
+        switch (scope.tipo) {
+          case "danger":
+            scope.corBarraTempo = COR_TEMPO_DANGER;
+            break;
+
+          case "success":
+            scope.corBarraTempo = COR_TEMPO_SUCCESS;
+            break;
+
+          case "info":
+            scope.corBarraTempo = COR_TEMPO_INFO;
+            break;
+
+          case "warning":
+            scope.corBarraTempo = COR_TEMPO_WARNING;
+            break;
+        }
+
+        _elementoAlerta.on('mouseenter', function() {
+          _elementoTempo.css({
+            'transition': 'none',
+            'width': '100%'
+          });
+
+          $timeout.cancel(_promessaTimeoutAlerta);
+          $timeout.cancel(_promessaTimeoutBlanket);
+        });
+
+        _elementoAlerta.on('mouseleave', function() {
+          _elementoTempo.css({
+            'transition': 'width ' + scope.tempoVisivel + 'ms ease',
+            'width': '0'
+          });
+
+          _elementoAlerta.fadeIn(TEMPO_DE_APARICAO);
+
+          _promessaTimeoutAlerta = $timeout(function() {
+            _elementoAlerta.fadeOut(TEMPO_DE_REMOCAO);
+          }, scope.tempoVisivel);
+
+          if (scope.comBlanket) {
+            _elementoBlanket.fadeIn(TEMPO_DE_APARICAO);
+
+            _promessaTimeoutBlanket = $timeout(function() {
+              _elementoBlanket.fadeOut(TEMPO_DE_REMOCAO);
+            }, scope.tempoVisivel);
           }
+        });
+
+        if (!_estaAparecendo  && !_estaSumindo) {
+          _elementoAlerta.fadeIn(TEMPO_DE_APARICAO);
+
+          _elementoTempo.css({
+            'width': '100%',
+            'transition': 'none'
+          });
+
+          $timeout(function() {
+            _elementoTempo.css({
+              'transition': 'width ' + scope.tempoVisivel + 'ms ease',
+              'width': '0'
+            });
+
+            _promessaTimeoutAlerta = $timeout(function() {
+              _elementoAlerta.fadeOut(TEMPO_DE_REMOCAO);
+            }, scope.tempoVisivel);
+
+            if (scope.comBlanket) {
+              _elementoBlanket.fadeIn(TEMPO_DE_APARICAO);
+
+              _promessaTimeoutBlanket = $timeout(function() {
+                _elementoBlanket.fadeOut(TEMPO_DE_REMOCAO);
+              }, scope.tempoVisivel);
+            }
+          }, TEMPO_INICIALIZACAO_BARRA_TEMPO);
+        }
       });
 
-      _alerta.find('.close').eq(0).on('click', _escondeAlerta);
+      _elementoClose.on('click', _escondeAlerta);
       $rootScope.$on(AltAlertaFlutuanteEventos.EVENTO_ESCONDER_ALERTA_FLUTUANTE, _escondeAlerta);
       $rootScope.$on(AltAlertaFlutuanteEventos.TROCA_ROTA, _escondeAlerta);
     }
 
-    var _scope = {};
-
-    var _replace = true;
-
-    var _restrict = 'A';
-
     return {
-              restrict: _restrict,
-              replace: _replace,
-              template: _template,
-              link: _link,
-              scope: _scope
-           };
+      restrict: 'A',
+      replace: true,
+      scope: {},
+      template: TEMPLATE,
+      link: _link
+    };
   }]);
 }());
