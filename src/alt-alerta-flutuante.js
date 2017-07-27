@@ -5,8 +5,7 @@
   .module('alt.alerta-flutuante', [])
   .constant('AltAlertaFlutuanteEventos', {
     EVENTO_ALERTA_FLUTUANTE: 'alt.exibe-alerta-flutuante',
-    EVENTO_ESCONDER_ALERTA_FLUTUANTE: 'alt.esconde-alerta-flutuante',
-    TROCA_ROTA: '$locationChangeSuccess'
+    EVENTO_ESCONDER_ALERTA_FLUTUANTE: 'alt.esconde-alerta-flutuante'
   })
   .service('AltAlertaFlutuanteService', ['$rootScope', 'AltAlertaFlutuanteEventos', function($rootScope, AltAlertaFlutuanteEventos) {
     this.exibe = function(opt) {
@@ -161,7 +160,6 @@
 
       _elementoClose.on('click', _escondeAlerta);
       $rootScope.$on(AltAlertaFlutuanteEventos.EVENTO_ESCONDER_ALERTA_FLUTUANTE, _escondeAlerta);
-      $rootScope.$on(AltAlertaFlutuanteEventos.TROCA_ROTA, _escondeAlerta);
     }
 
     return {
