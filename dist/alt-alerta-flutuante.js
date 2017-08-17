@@ -25,7 +25,7 @@
                         </button>\
                         <span class="fa fa-{{icone}} fa-fw"></span>\
                         <strong ng-bind="titulo"></strong>\
-                        <p class="alt-espacamento-top" ng-bind-html="mensagem"></p>\
+                        <p class="alt-espacamento-top alt-alerta-flutuante-mensagem" ng-bind-html="mensagem"></p>\
                         <div id="alt-alerta-flutuante-tempo" ng-style="{\'border-color\': corBarraTempo}"></div>\
                       </div>\
                     </div>';

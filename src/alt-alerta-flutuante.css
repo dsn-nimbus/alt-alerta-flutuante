@@ -9,6 +9,10 @@
   padding: 15px 15px 20px 15px;
 }
 
+#alt-alerta-flutuante .alt-alerta-flutuante-mensagem {
+	word-wrap: break-word;
+}
+
 #alt-alerta-flutuante-blanket {
   position: fixed;
   top: 0;
