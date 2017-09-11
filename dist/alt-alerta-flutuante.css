@@ -45,6 +45,15 @@
   z-index: 9999;
 }
 
+.alt-alerta-flutuante-agrupador-mensagens {
+  list-style: none;
+  padding-left: 15px;
+}
+
+.alt-alerta-flutuante-separador-mensagens {
+  margin-right: 10px;
+}
+
 @media(min-width: 50em) {
   .alt-alerta-flutuante {
     width: 40%;

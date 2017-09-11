@@ -109,7 +109,6 @@ describe('altAlertaFlutuanteDirective', function() {
 
         expect($.fn.fadeIn).not.toHaveBeenCalled();
         expect($.fn.fadeOut).not.toHaveBeenCalled();
-
       })
 
       it('não deve chamar os métodos de aparição do alert, o elemento já está sendo exibido - opacity', function() {
@@ -122,7 +121,6 @@ describe('altAlertaFlutuanteDirective', function() {
 
         expect($.fn.fadeIn).not.toHaveBeenCalled();
         expect($.fn.fadeOut).not.toHaveBeenCalled();
-
       })
 
       it('não deve chamar os métodos de aparição do alert, o elemento já está sendo exibido - block e opacity', function() {
@@ -167,7 +165,7 @@ describe('altAlertaFlutuanteDirective', function() {
         expect($.fn.fadeOut).toHaveBeenCalled();
       })
 
-      it('deve preencher o escopo com as propriedades default - tipo e mensagem', function() {
+      it('deve preencher o escopo com as propriedades default', function() {
         _rootScope.$broadcast(EVENTO);
 
         expect(_element.isolateScope().tipo).toEqual("danger");
@@ -178,10 +176,13 @@ describe('altAlertaFlutuanteDirective', function() {
         expect(_element.isolateScope().exibeBtnClose).toEqual(true);
         expect(_element.isolateScope().comBlanket).toEqual(false);
         expect(_element.isolateScope().corBarraTempo).toEqual("#c56666");
+        expect(_element.isolateScope().listaMsg).toEqual([]);
       })
 
       it('deve preencher o escopo com o tipo default', function() {
-        _rootScope.$broadcast(EVENTO, {msg: 'ae'});
+        _rootScope.$broadcast(EVENTO, {
+          msg: 'ae'
+        });
 
         expect(_element.isolateScope().tipo).toEqual("danger");
         expect(_element.isolateScope().titulo).toEqual("Houve um problema");
@@ -191,10 +192,13 @@ describe('altAlertaFlutuanteDirective', function() {
         expect(_element.isolateScope().exibeBtnClose).toEqual(true);
         expect(_element.isolateScope().comBlanket).toEqual(false);
         expect(_element.isolateScope().corBarraTempo).toEqual("#c56666");
+        expect(_element.isolateScope().listaMsg).toEqual([]);
       })
 
       it('deve preencher o escopo com a mensagem default', function() {
-        _rootScope.$broadcast(EVENTO, {tipo: 'success'});
+        _rootScope.$broadcast(EVENTO, {
+          tipo: 'success'
+        });
 
         expect(_element.isolateScope().tipo).toEqual("success");
         expect(_element.isolateScope().titulo).toEqual("Houve um problema");
@@ -204,10 +208,15 @@ describe('altAlertaFlutuanteDirective', function() {
         expect(_element.isolateScope().exibeBtnClose).toEqual(true);
         expect(_element.isolateScope().comBlanket).toEqual(false);
         expect(_element.isolateScope().corBarraTempo).toEqual("#528c49");
+        expect(_element.isolateScope().listaMsg).toEqual([]);
       })
 
       it('deve preencher o titulo corretamente', function() {
-        _rootScope.$broadcast(EVENTO, {msg: "abc", tipo: 'success', titulo: "titulo1"});
+        _rootScope.$broadcast(EVENTO, {
+          msg: "abc",
+          tipo: 'success',
+          titulo: "titulo1"
+        });
 
         expect(_element.isolateScope().tipo).toEqual("success");
         expect(_element.isolateScope().titulo).toEqual("titulo1");
@@ -217,10 +226,16 @@ describe('altAlertaFlutuanteDirective', function() {
         expect(_element.isolateScope().exibeBtnClose).toEqual(true);
         expect(_element.isolateScope().comBlanket).toEqual(false);
         expect(_element.isolateScope().corBarraTempo).toEqual("#528c49");
+        expect(_element.isolateScope().listaMsg).toEqual([]);
       })
 
       it('deve preencher o icone corretamente', function() {
-        _rootScope.$broadcast(EVENTO, {msg: "abc", tipo: 'success', titulo: "titulo1", icone: 'check'});
+        _rootScope.$broadcast(EVENTO, {
+          msg: "abc",
+          tipo: 'success',
+          titulo: "titulo1",
+          icone: 'check'
+        });
 
         expect(_element.isolateScope().tipo).toEqual("success");
         expect(_element.isolateScope().titulo).toEqual("titulo1");
@@ -230,12 +245,19 @@ describe('altAlertaFlutuanteDirective', function() {
         expect(_element.isolateScope().exibeBtnClose).toEqual(true);
         expect(_element.isolateScope().comBlanket).toEqual(false);
         expect(_element.isolateScope().corBarraTempo).toEqual("#528c49");
+        expect(_element.isolateScope().listaMsg).toEqual([]);
       })
 
       it('deve preencher o tempo corretamente', function() {
         var _novoTempoVisivel = 123;
 
-        _rootScope.$broadcast(EVENTO, {msg: "abc", tipo: 'success', titulo: "titulo1", icone: 'check', tempoVisivel: _novoTempoVisivel});
+        _rootScope.$broadcast(EVENTO, {
+          msg: "abc",
+          tipo: 'success',
+          titulo: "titulo1",
+          icone: 'check',
+          tempoVisivel: _novoTempoVisivel
+        });
 
         expect(_element.isolateScope().tipo).toEqual("success");
         expect(_element.isolateScope().titulo).toEqual("titulo1");
@@ -247,12 +269,20 @@ describe('altAlertaFlutuanteDirective', function() {
         expect(_element.isolateScope().exibeBtnClose).toEqual(true);
         expect(_element.isolateScope().comBlanket).toEqual(false);
         expect(_element.isolateScope().corBarraTempo).toEqual("#528c49");
+        expect(_element.isolateScope().listaMsg).toEqual([]);
       })
 
       it('deve preencher o exibeBtnClose corretamente', function() {
         var _novoTempoVisivel = 123;
 
-        _rootScope.$broadcast(EVENTO, {msg: "abc", tipo: 'success', titulo: "titulo1", icone: 'check', tempoVisivel: _novoTempoVisivel, exibeBtnClose: false});
+        _rootScope.$broadcast(EVENTO, {
+          msg: "abc",
+          tipo: 'success',
+          titulo: "titulo1",
+          icone: 'check',
+          tempoVisivel: _novoTempoVisivel,
+          exibeBtnClose: false
+        });
 
         expect(_element.isolateScope().tipo).toEqual("success");
         expect(_element.isolateScope().titulo).toEqual("titulo1");
@@ -263,12 +293,20 @@ describe('altAlertaFlutuanteDirective', function() {
         expect(_element.isolateScope().exibeBtnClose).toEqual(false);
         expect(_element.isolateScope().comBlanket).toEqual(false);
         expect(_element.isolateScope().corBarraTempo).toEqual("#528c49");
+        expect(_element.isolateScope().listaMsg).toEqual([]);
       })
 
       it('deve preencher o exibeBtnClose corretamente - tipo: info', function() {
         var _novoTempoVisivel = 123;
 
-        _rootScope.$broadcast(EVENTO, {msg: "abc", tipo: 'info', titulo: "titulo1", icone: 'check', tempoVisivel: _novoTempoVisivel, exibeBtnClose: false});
+        _rootScope.$broadcast(EVENTO, {
+          msg: "abc",
+          tipo: 'info',
+          titulo: "titulo1",
+          icone: 'check',
+          tempoVisivel: _novoTempoVisivel,
+          exibeBtnClose: false
+        });
 
         expect(_element.isolateScope().tipo).toEqual("info");
         expect(_element.isolateScope().titulo).toEqual("titulo1");
@@ -279,12 +317,20 @@ describe('altAlertaFlutuanteDirective', function() {
         expect(_element.isolateScope().exibeBtnClose).toEqual(false);
         expect(_element.isolateScope().comBlanket).toEqual(false);
         expect(_element.isolateScope().corBarraTempo).toEqual("#31708f");
+        expect(_element.isolateScope().listaMsg).toEqual([]);
       })
 
       it('deve preencher o exibeBtnClose corretamente - tipo: danger', function() {
         var _novoTempoVisivel = 123;
 
-        _rootScope.$broadcast(EVENTO, {msg: "abc", tipo: 'danger', titulo: "titulo1", icone: 'check', tempoVisivel: _novoTempoVisivel, exibeBtnClose: false});
+        _rootScope.$broadcast(EVENTO, {
+          msg: "abc",
+          tipo: 'danger',
+          titulo: "titulo1",
+          icone: 'check',
+          tempoVisivel: _novoTempoVisivel,
+          exibeBtnClose: false
+        });
 
         expect(_element.isolateScope().tipo).toEqual("danger");
         expect(_element.isolateScope().titulo).toEqual("titulo1");
@@ -295,12 +341,20 @@ describe('altAlertaFlutuanteDirective', function() {
         expect(_element.isolateScope().exibeBtnClose).toEqual(false);
         expect(_element.isolateScope().comBlanket).toEqual(false);
         expect(_element.isolateScope().corBarraTempo).toEqual("#c56666");
+        expect(_element.isolateScope().listaMsg).toEqual([]);
       })
 
       it('deve preencher o exibeBtnClose corretamente - tipo: warning', function() {
         var _novoTempoVisivel = 123;
 
-        _rootScope.$broadcast(EVENTO, {msg: "abc", tipo: 'warning', titulo: "titulo1", icone: 'check', tempoVisivel: _novoTempoVisivel, exibeBtnClose: false});
+        _rootScope.$broadcast(EVENTO, {
+          msg: "abc",
+          tipo: 'warning',
+          titulo: "titulo1",
+          icone: 'check',
+          tempoVisivel: _novoTempoVisivel,
+          exibeBtnClose: false
+        });
 
         expect(_element.isolateScope().tipo).toEqual("warning");
         expect(_element.isolateScope().titulo).toEqual("titulo1");
@@ -311,12 +365,21 @@ describe('altAlertaFlutuanteDirective', function() {
         expect(_element.isolateScope().exibeBtnClose).toEqual(false);
         expect(_element.isolateScope().comBlanket).toEqual(false);
         expect(_element.isolateScope().corBarraTempo).toEqual("#8a6d3b");
+        expect(_element.isolateScope().listaMsg).toEqual([]);
       })
 
       it('deve preencher o comBlanket corretamente', function() {
         var _novoTempoVisivel = 123;
 
-        _rootScope.$broadcast(EVENTO, {msg: "abc", tipo: 'success', titulo: "titulo1", icone: 'check', tempoVisivel: _novoTempoVisivel, exibeBtnClose: false, comBlanket: true});
+        _rootScope.$broadcast(EVENTO, {
+          msg: "abc",
+          tipo: 'success',
+          titulo: "titulo1",
+          icone: 'check',
+          tempoVisivel: _novoTempoVisivel,
+          exibeBtnClose: false,
+          comBlanket: true
+        });
 
         expect(_element.isolateScope().tipo).toEqual("success");
         expect(_element.isolateScope().titulo).toEqual("titulo1");
@@ -327,6 +390,51 @@ describe('altAlertaFlutuanteDirective', function() {
         expect(_element.isolateScope().exibeBtnClose).toEqual(false);
         expect(_element.isolateScope().comBlanket).toEqual(true);
         expect(_element.isolateScope().corBarraTempo).toEqual("#528c49");
+        expect(_element.isolateScope().listaMsg).toEqual([]);
+      })
+
+      it('deve preencher o listaMsg corretamente', function() {
+        var _novoTempoVisivel = 123;
+
+        _rootScope.$broadcast(EVENTO, {
+          msg: "abc",
+          tipo: 'success',
+          titulo: "titulo1",
+          icone: 'check',
+          tempoVisivel: _novoTempoVisivel,
+          exibeBtnClose: false,
+          comBlanket: true,
+          listaMsg: [
+            {
+              mensagem: 'a',
+              outraInfo: 1
+            },
+            {
+              mensagem: 'b',
+              outraInfo: 2
+            }
+          ]
+        });
+
+        expect(_element.isolateScope().tipo).toEqual("success");
+        expect(_element.isolateScope().titulo).toEqual("titulo1");
+        expect(_element.isolateScope().mensagem.$$unwrapTrustedValue()).toEqual("abc");
+        expect(_element.isolateScope().icone).toEqual("check");
+        expect(_element.isolateScope().tempoVisivel).not.toEqual(TEMPO_DE_EXIBICAO);
+        expect(_element.isolateScope().tempoVisivel).toEqual(_novoTempoVisivel);
+        expect(_element.isolateScope().exibeBtnClose).toEqual(false);
+        expect(_element.isolateScope().comBlanket).toEqual(true);
+        expect(_element.isolateScope().corBarraTempo).toEqual("#528c49");
+        expect(_element.isolateScope().listaMsg).toEqual([
+          {
+            mensagem: 'a',
+            outraInfo: 1
+          },
+          {
+            mensagem: 'b',
+            outraInfo: 2
+          }
+        ]);
       })
     })
 
