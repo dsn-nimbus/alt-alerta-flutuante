@@ -61,6 +61,10 @@ describe('altAlertaFlutuanteDirective', function() {
         expect(_element).toBeDefined();
       })
 
+      it('deve ter o _sendoExibido como false', function() {
+        expect(_element.isolateScope()._sendoExibido).toBe(false);
+      })
+
       it('deve ter alerta criado e acessível', function() {
         expect(_alerta).toBeDefined();
       })
@@ -87,6 +91,28 @@ describe('altAlertaFlutuanteDirective', function() {
       })
     })
 
+    describe('sendoExibido', function() {
+      it('deve retornar false, acabou de ser criado', function() {
+        expect(_element.isolateScope().sendoExibido()).toBe(false)
+      })
+
+      it('deve retornar true e depois false, evento de exibição foi chamado e posteriormente, o evento de esconder também foi chamado', function() {
+        _rootScope.$broadcast(_AltAlertaFlutuanteEventos.EVENTO_ALERTA_FLUTUANTE)
+
+        expect(_element.isolateScope().sendoExibido()).toBe(true)
+
+        _rootScope.$broadcast(_AltAlertaFlutuanteEventos.EVENTO_ESCONDER_ALERTA_FLUTUANTE)
+
+        expect(_element.isolateScope().sendoExibido()).toBe(false)
+      })
+
+      it('deve retornar true, evento de exibição foi chamado', function() {
+        _rootScope.$broadcast(_AltAlertaFlutuanteEventos.EVENTO_ALERTA_FLUTUANTE)
+
+        expect(_element.isolateScope().sendoExibido()).toBe(true)
+      })
+    })
+
     describe('reação ao click de fechar', function() {
       it('deve sumir com o alerta', function() {
         spyOn($.fn, 'fadeOut').and.callThrough();
@@ -95,6 +121,16 @@ describe('altAlertaFlutuanteDirective', function() {
 
         expect(_timeoutMock.cancel).toHaveBeenCalled();
         expect(_alerta.fadeOut).toHaveBeenCalledWith(TEMPO_DE_REMOCAO);
+      })
+
+      it('deve sumir com o alerta e o sendoExibido deve retornar false', function() {
+        spyOn($.fn, 'fadeOut').and.callThrough();
+
+        _close.click();
+
+        expect(_timeoutMock.cancel).toHaveBeenCalled();
+        expect(_alerta.fadeOut).toHaveBeenCalledWith(TEMPO_DE_REMOCAO);
+        expect(_element.isolateScope().sendoExibido()).toBe(false)
       })
     })
 
@@ -109,6 +145,7 @@ describe('altAlertaFlutuanteDirective', function() {
 
         expect($.fn.fadeIn).not.toHaveBeenCalled();
         expect($.fn.fadeOut).not.toHaveBeenCalled();
+        expect(_element.isolateScope().sendoExibido()).toBe(true)
       })
 
       it('não deve chamar os métodos de aparição do alert, o elemento já está sendo exibido - opacity', function() {
@@ -121,6 +158,7 @@ describe('altAlertaFlutuanteDirective', function() {
 
         expect($.fn.fadeIn).not.toHaveBeenCalled();
         expect($.fn.fadeOut).not.toHaveBeenCalled();
+        expect(_element.isolateScope().sendoExibido()).toBe(true)
       })
 
       it('não deve chamar os métodos de aparição do alert, o elemento já está sendo exibido - block e opacity', function() {
@@ -133,6 +171,7 @@ describe('altAlertaFlutuanteDirective', function() {
 
         expect($.fn.fadeIn).not.toHaveBeenCalled();
         expect($.fn.fadeOut).not.toHaveBeenCalled();
+        expect(_element.isolateScope().sendoExibido()).toBe(true)
       })
 
       it('deve chamar os métodos de aparição do alert, o elemento não está sendo exibido', function() {
@@ -148,6 +187,7 @@ describe('altAlertaFlutuanteDirective', function() {
 
         expect($.fn.fadeIn).toHaveBeenCalled();
         expect($.fn.fadeOut).toHaveBeenCalled();
+        expect(_element.isolateScope().sendoExibido()).toBe(true)
       })
 
       it('deve chamar os métodos de aparição do alert, o elemento não está sendo exibido - com blanket', function() {
@@ -163,11 +203,13 @@ describe('altAlertaFlutuanteDirective', function() {
 
         expect($.fn.fadeIn).toHaveBeenCalled();
         expect($.fn.fadeOut).toHaveBeenCalled();
+        expect(_element.isolateScope().sendoExibido()).toBe(true)
       })
 
       it('deve preencher o escopo com as propriedades default', function() {
         _rootScope.$broadcast(EVENTO);
 
+        expect(_element.isolateScope().sendoExibido()).toBe(true)
         expect(_element.isolateScope().tipo).toEqual("danger");
         expect(_element.isolateScope().titulo).toEqual("Houve um problema");
         expect(_element.isolateScope().mensagem.$$unwrapTrustedValue()).toEqual("Ocorreu um erro no momento da solicitação. Por favor, tente novamente mais tarde.");
@@ -184,6 +226,7 @@ describe('altAlertaFlutuanteDirective', function() {
           msg: 'ae'
         });
 
+        expect(_element.isolateScope().sendoExibido()).toBe(true)
         expect(_element.isolateScope().tipo).toEqual("danger");
         expect(_element.isolateScope().titulo).toEqual("Houve um problema");
         expect(_element.isolateScope().mensagem.$$unwrapTrustedValue()).toEqual("ae");
@@ -200,6 +243,7 @@ describe('altAlertaFlutuanteDirective', function() {
           tipo: 'success'
         });
 
+        expect(_element.isolateScope().sendoExibido()).toBe(true)
         expect(_element.isolateScope().tipo).toEqual("success");
         expect(_element.isolateScope().titulo).toEqual("Houve um problema");
         expect(_element.isolateScope().mensagem.$$unwrapTrustedValue()).toEqual("Ocorreu um erro no momento da solicitação. Por favor, tente novamente mais tarde.");
@@ -218,6 +262,7 @@ describe('altAlertaFlutuanteDirective', function() {
           titulo: "titulo1"
         });
 
+        expect(_element.isolateScope().sendoExibido()).toBe(true)
         expect(_element.isolateScope().tipo).toEqual("success");
         expect(_element.isolateScope().titulo).toEqual("titulo1");
         expect(_element.isolateScope().mensagem.$$unwrapTrustedValue()).toEqual("abc");
@@ -237,6 +282,7 @@ describe('altAlertaFlutuanteDirective', function() {
           icone: 'check'
         });
 
+        expect(_element.isolateScope().sendoExibido()).toBe(true)
         expect(_element.isolateScope().tipo).toEqual("success");
         expect(_element.isolateScope().titulo).toEqual("titulo1");
         expect(_element.isolateScope().mensagem.$$unwrapTrustedValue()).toEqual("abc");
@@ -259,6 +305,7 @@ describe('altAlertaFlutuanteDirective', function() {
           tempoVisivel: _novoTempoVisivel
         });
 
+        expect(_element.isolateScope().sendoExibido()).toBe(true)
         expect(_element.isolateScope().tipo).toEqual("success");
         expect(_element.isolateScope().titulo).toEqual("titulo1");
         expect(_element.isolateScope().mensagem.$$unwrapTrustedValue()).toEqual("abc");
@@ -284,6 +331,7 @@ describe('altAlertaFlutuanteDirective', function() {
           exibeBtnClose: false
         });
 
+        expect(_element.isolateScope().sendoExibido()).toBe(true)
         expect(_element.isolateScope().tipo).toEqual("success");
         expect(_element.isolateScope().titulo).toEqual("titulo1");
         expect(_element.isolateScope().mensagem.$$unwrapTrustedValue()).toEqual("abc");
@@ -308,6 +356,7 @@ describe('altAlertaFlutuanteDirective', function() {
           exibeBtnClose: false
         });
 
+        expect(_element.isolateScope().sendoExibido()).toBe(true)
         expect(_element.isolateScope().tipo).toEqual("info");
         expect(_element.isolateScope().titulo).toEqual("titulo1");
         expect(_element.isolateScope().mensagem.$$unwrapTrustedValue()).toEqual("abc");
@@ -332,6 +381,7 @@ describe('altAlertaFlutuanteDirective', function() {
           exibeBtnClose: false
         });
 
+        expect(_element.isolateScope().sendoExibido()).toBe(true)
         expect(_element.isolateScope().tipo).toEqual("danger");
         expect(_element.isolateScope().titulo).toEqual("titulo1");
         expect(_element.isolateScope().mensagem.$$unwrapTrustedValue()).toEqual("abc");
@@ -356,6 +406,7 @@ describe('altAlertaFlutuanteDirective', function() {
           exibeBtnClose: false
         });
 
+        expect(_element.isolateScope().sendoExibido()).toBe(true)
         expect(_element.isolateScope().tipo).toEqual("warning");
         expect(_element.isolateScope().titulo).toEqual("titulo1");
         expect(_element.isolateScope().mensagem.$$unwrapTrustedValue()).toEqual("abc");
@@ -381,6 +432,7 @@ describe('altAlertaFlutuanteDirective', function() {
           comBlanket: true
         });
 
+        expect(_element.isolateScope().sendoExibido()).toBe(true)
         expect(_element.isolateScope().tipo).toEqual("success");
         expect(_element.isolateScope().titulo).toEqual("titulo1");
         expect(_element.isolateScope().mensagem.$$unwrapTrustedValue()).toEqual("abc");
@@ -416,6 +468,7 @@ describe('altAlertaFlutuanteDirective', function() {
           ]
         });
 
+        expect(_element.isolateScope().sendoExibido()).toBe(true)
         expect(_element.isolateScope().tipo).toEqual("success");
         expect(_element.isolateScope().titulo).toEqual("titulo1");
         expect(_element.isolateScope().mensagem.$$unwrapTrustedValue()).toEqual("abc");
@@ -446,6 +499,16 @@ describe('altAlertaFlutuanteDirective', function() {
 
         expect(_alerta.fadeOut).toHaveBeenCalledWith(TEMPO_DE_REMOCAO);
         expect(_blanket.fadeOut).toHaveBeenCalledWith(TEMPO_DE_REMOCAO);
+      })
+
+      it('deve sumir com o alerta e setar o _sendoExibido para false', function() {
+        spyOn($.fn, 'fadeOut').and.callThrough();
+
+        _rootScope.$broadcast(EVENTO_ESCONDER);
+
+        expect(_alerta.fadeOut).toHaveBeenCalledWith(TEMPO_DE_REMOCAO);
+        expect(_blanket.fadeOut).toHaveBeenCalledWith(TEMPO_DE_REMOCAO);
+        expect(_element.isolateScope().sendoExibido()).toBe(false)
       })
     })
 

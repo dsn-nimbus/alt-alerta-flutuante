@@ -79,13 +79,23 @@
 
           _elementoBlanket.fadeOut(TEMPO_DE_REMOCAO);
           _elementoAlerta.fadeOut(TEMPO_DE_REMOCAO);
+
+          scope._sendoExibido = false;
         };
 
         _elementoLabelAgrupadorMensagens.on('click', function() {
           _elementoAgrupadorMensagens.toggleClass('hidden');
         });
 
+        scope._sendoExibido = false;
+
+        scope.sendoExibido = function() {
+          return scope._sendoExibido;
+        };
+
         $rootScope.$on(AltAlertaFlutuanteEventos.EVENTO_ALERTA_FLUTUANTE, function(evento, obj) {
+          scope._sendoExibido = true;
+
           _elementoAlerta.off('mouseenter');
           _elementoAlerta.off('mouseleave');
 
